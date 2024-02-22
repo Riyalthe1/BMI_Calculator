@@ -47,10 +47,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BMICalculator() {
-    var height = remember {
+    val height = remember {
         mutableStateOf("")
     }
-    var weight = remember {
+    val weight = remember {
         mutableStateOf("")
     }
 
@@ -65,9 +65,18 @@ fun BMICalculator() {
             Text(text = "BMI", fontSize = 100.sp, fontWeight = FontWeight.Bold, color = Color.Gray)
             Text(text = "Calculator", fontSize = 50.sp)
             Spacer(modifier = Modifier.height(30.dp))
-            OutlinedTextField(value = height.value, onValueChange = {height.value = it}, placeholder = "Enter your Height")
+            OutlinedTextField(value = height.value , onValueChange = {
+                input-> height.value = input
+            } ,
+                placeholder = { Text(text = "Enter Height") },
+
+                )
             Spacer(modifier = Modifier.height(30.dp))
-            TextField(value = weight.value, onValueChange = { weight.value = it }, label = "Neter ")
+           TextField(value = weight.value, onValueChange = {
+               input-> weight.value = input
+           }
+           , placeholder =  { Text(text =   "Enter Weight")}
+           )
         }
     }
 }

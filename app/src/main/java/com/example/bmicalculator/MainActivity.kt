@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -69,13 +70,16 @@ fun BMICalculator() {
                 input-> height.value = input
             } ,
                 placeholder = { Text(text = "Enter Height") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
 
                 )
             Spacer(modifier = Modifier.height(30.dp))
            TextField(value = weight.value, onValueChange = {
                input-> weight.value = input
            }
-           , placeholder =  { Text(text =   "Enter Weight")}
+           , placeholder =  { Text(text =   "Enter Weight")},
+               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+
            )
         }
     }

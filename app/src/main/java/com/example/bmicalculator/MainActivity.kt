@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -28,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
+import kotlin.math.pow
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,16 +51,17 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BMICalculator() {
-    val height = remember {
+    var height = remember {
         mutableStateOf("")
     }
-    val weight = remember {
+    var weight = remember {
         mutableStateOf("")
     }
 
     var bmi = remember {
         mutableStateOf("")
     }
+
     Surface(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -66,9 +70,10 @@ fun BMICalculator() {
             Text(text = "BMI", fontSize = 100.sp, fontWeight = FontWeight.Bold, color = Color.Gray)
             Text(text = "Calculator", fontSize = 50.sp)
             Spacer(modifier = Modifier.height(30.dp))
-            OutlinedTextField(value = height.value, onValueChange = { input ->
-                height.value = input
-            },
+            OutlinedTextField(
+                value = height.value, onValueChange = { input ->
+                    height.value = input
+                },
                 placeholder = { Text(text = "Enter Height (CM)") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
 
@@ -80,6 +85,19 @@ fun BMICalculator() {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
 
             )
+            Spacer(modifier = Modifier.height(12.dp))
+            Button(onClick = {height = height.value.toFloatOrNull()?:0f}, shape = RoundedCornerShape(8.dp)) {
+Text(text = "Calculate BMI")
+
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(text = bmi.value)
         }
     }
+}
+
+@Composable
+fun CalculateBMI (height:Float, weight:Float):String{
+    if (height<=0||weight<0) {return "Invalid input"}
+else bmi = weight / (height/100).pow(2)
 }

@@ -66,21 +66,20 @@ fun BMICalculator() {
             Text(text = "BMI", fontSize = 100.sp, fontWeight = FontWeight.Bold, color = Color.Gray)
             Text(text = "Calculator", fontSize = 50.sp)
             Spacer(modifier = Modifier.height(30.dp))
-            OutlinedTextField(value = height.value , onValueChange = {
-                input-> height.value = input
-            } ,
-                placeholder = { Text(text = "Enter Height") },
+            OutlinedTextField(value = height.value, onValueChange = { input ->
+                height.value = input
+            },
+                placeholder = { Text(text = "Enter Height (CM)") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
 
-                )
+            )
             Spacer(modifier = Modifier.height(30.dp))
-           TextField(value = weight.value, onValueChange = {
-               input-> weight.value = input
-           }
-           , placeholder =  { Text(text =   "Enter Weight")},
-               keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            OutlinedTextField(value = weight.value, onValueChange = { input ->
+                weight.value = input
+            }, placeholder = { Text(text = "Enter Weight(KG)") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
 
-           )
+            )
         }
     }
 }

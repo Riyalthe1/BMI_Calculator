@@ -11,12 +11,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,8 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
@@ -51,14 +47,14 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BMICalculator() {
-    var height = remember {
+    val height = remember {
         mutableStateOf("")
     }
-    var weight = remember {
+    val weight = remember {
         mutableStateOf("")
     }
 
-    var bmi = remember {
+    val bmi = remember {
         mutableStateOf("")
     }
 
@@ -83,21 +79,42 @@ fun BMICalculator() {
                 weight.value = input
             }, placeholder = { Text(text = "Enter Weight(KG)") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-
             )
             Spacer(modifier = Modifier.height(12.dp))
-            Button(onClick = {height = height.value.toFloatOrNull()?:0f}, shape = RoundedCornerShape(8.dp)) {
-Text(text = "Calculate BMI")
-
+            Button(onClick = {
+                val calculatedBmi = calculateBMI(
+                    height = height.value.toFloatOrNull() ?: 0f,
+                    weight = weight.value.toFloatOrNull() ?: 0f
+                )
+                bmi.value = calculatedBmi
+            }, shape = RoundedCornerShape(8.dp)) {
+                Text(text = "Calculate BMI")
             }
             Spacer(modifier = Modifier.height(12.dp))
             Text(text = bmi.value)
+            Text(text = bmiInterpretation(bmi.value.toFloatOrNull() ?: 0f))
+
         }
+
     }
+
 }
 
-@Composable
-fun CalculateBMI (height:Float, weight:Float):String{
-    if (height<=0||weight<0) {return "Invalid input"}
-else bmi = weight / (height/100).pow(2)
+
+fun calculateBMI(height: Float, weight: Float): String {
+    if (height <= 0 || weight < 0) {
+        return "Invalid input"
+    }
+    val bmi = weight / (height / 100).pow(2)
+    return String.format("%.2f", bmi)
+}
+
+fun bmiInterpretation(bmi: Float): String {
+    return when (bmi) {
+        0.0F -> ""
+        in 0.1..18.5 -> "Underweight"
+        in 18.5..24.9 -> "Normal weight"
+        in 25.0..29.9 -> "Overweight"
+        else -> "Obese"
+    }
 }

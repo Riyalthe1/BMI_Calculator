@@ -67,16 +67,16 @@ fun BMICalculator() {
             Text(text = "Calculator", fontSize = 50.sp)
             Spacer(modifier = Modifier.height(30.dp))
             OutlinedTextField(
-                value = height.value, onValueChange = { input ->
-                    height.value = input
+                value = height.value, onValueChange = { input -> if (input.isEmpty()) {bmi.value = ""}
+                   if (input.length <= 3 && input.all { it.isDigit() }) {height.value = input}
                 },
                 placeholder = { Text(text = "Enter Height (CM)") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
 
             )
             Spacer(modifier = Modifier.height(30.dp))
-            OutlinedTextField(value = weight.value, onValueChange = { input ->
-                weight.value = input
+            OutlinedTextField(value = weight.value, onValueChange = { input -> if (input.isEmpty()) {bmi.value = ""}
+                if (input.length <= 3 && input.all { it.isDigit() }) {weight.value = input}
             }, placeholder = { Text(text = "Enter Weight(KG)") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
